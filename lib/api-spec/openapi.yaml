@@ -3,13 +3,27 @@ info:
   # Do not change the title, if the title changes, the import paths will be broken
   title: Api
   version: 0.1.0
-  description: API specification
+  description: Forest Fire Prediction & Disaster Management Platform API
 servers:
   - url: /api
     description: Base API path
 tags:
   - name: health
     description: Health operations
+  - name: incidents
+    description: Fire incident operations
+  - name: alerts
+    description: Alert operations
+  - name: zones
+    description: Risk zone operations
+  - name: weather
+    description: Weather data operations
+  - name: reports
+    description: Citizen reports
+  - name: resources
+    description: Emergency resources
+  - name: dashboard
+    description: Dashboard summary data
 paths:
   /healthz:
     get:
@@ -24,6 +38,474 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/HealthStatus"
+
+  /incidents:
+    get:
+      operationId: listIncidents
+      tags: [incidents]
+      summary: List fire incidents
+      parameters:
+        - name: status
+          in: query
+          schema:
+            type: string
+        - name: severity
+          in: query
+          schema:
+            type: string
+        - name: limit
+          in: query
+          schema:
+            type: integer
+      responses:
+        "200":
+          description: List of incidents
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Incident"
+    post:
+      operationId: createIncident
+      tags: [incidents]
+      summary: Create a fire incident
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/IncidentInput"
+      responses:
+        "201":
+          description: Created incident
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Incident"
+
+  /incidents/{id}:
+    get:
+      operationId: getIncident
+      tags: [incidents]
+      summary: Get an incident by ID
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        "200":
+          description: Incident
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Incident"
+        "404":
+          description: Not found
+    patch:
+      operationId: updateIncident
+      tags: [incidents]
+      summary: Update an incident
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/IncidentUpdate"
+      responses:
+        "200":
+          description: Updated incident
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Incident"
+        "404":
+          description: Not found
+    delete:
+      operationId: deleteIncident
+      tags: [incidents]
+      summary: Delete an incident
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        "204":
+          description: Deleted
+
+  /incidents/{id}/resolve:
+    patch:
+      operationId: resolveIncident
+      tags: [incidents]
+      summary: Mark incident as resolved
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        "200":
+          description: Resolved incident
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Incident"
+
+  /alerts:
+    get:
+      operationId: listAlerts
+      tags: [alerts]
+      summary: List active alerts
+      parameters:
+        - name: active
+          in: query
+          schema:
+            type: boolean
+      responses:
+        "200":
+          description: List of alerts
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Alert"
+    post:
+      operationId: createAlert
+      tags: [alerts]
+      summary: Create an alert
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/AlertInput"
+      responses:
+        "201":
+          description: Created alert
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Alert"
+
+  /alerts/{id}:
+    patch:
+      operationId: updateAlert
+      tags: [alerts]
+      summary: Update an alert
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/AlertUpdate"
+      responses:
+        "200":
+          description: Updated alert
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Alert"
+    delete:
+      operationId: deleteAlert
+      tags: [alerts]
+      summary: Delete an alert
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        "204":
+          description: Deleted
+
+  /zones:
+    get:
+      operationId: listZones
+      tags: [zones]
+      summary: List risk zones
+      responses:
+        "200":
+          description: List of zones
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/RiskZone"
+    post:
+      operationId: createZone
+      tags: [zones]
+      summary: Create a risk zone
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/RiskZoneInput"
+      responses:
+        "201":
+          description: Created zone
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/RiskZone"
+
+  /zones/{id}:
+    patch:
+      operationId: updateZone
+      tags: [zones]
+      summary: Update a risk zone
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/RiskZoneUpdate"
+      responses:
+        "200":
+          description: Updated zone
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/RiskZone"
+
+  /weather:
+    get:
+      operationId: listWeatherReadings
+      tags: [weather]
+      summary: List recent weather readings
+      responses:
+        "200":
+          description: List of weather readings
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/WeatherReading"
+
+  /weather/current:
+    get:
+      operationId: getCurrentWeather
+      tags: [weather]
+      summary: Get current weather conditions
+      responses:
+        "200":
+          description: Current weather
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/WeatherReading"
+
+  /reports:
+    get:
+      operationId: listReports
+      tags: [reports]
+      summary: List citizen reports
+      parameters:
+        - name: status
+          in: query
+          schema:
+            type: string
+      responses:
+        "200":
+          description: List of reports
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/CitizenReport"
+    post:
+      operationId: createReport
+      tags: [reports]
+      summary: Submit a citizen report
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/CitizenReportInput"
+      responses:
+        "201":
+          description: Created report
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/CitizenReport"
+
+  /reports/{id}:
+    patch:
+      operationId: updateReport
+      tags: [reports]
+      summary: Update a citizen report
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/CitizenReportUpdate"
+      responses:
+        "200":
+          description: Updated report
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/CitizenReport"
+
+  /resources:
+    get:
+      operationId: listResources
+      tags: [resources]
+      summary: List emergency resources
+      parameters:
+        - name: type
+          in: query
+          schema:
+            type: string
+        - name: available
+          in: query
+          schema:
+            type: boolean
+      responses:
+        "200":
+          description: List of resources
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/EmergencyResource"
+    post:
+      operationId: createResource
+      tags: [resources]
+      summary: Add an emergency resource
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/EmergencyResourceInput"
+      responses:
+        "201":
+          description: Created resource
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/EmergencyResource"
+
+  /resources/{id}:
+    patch:
+      operationId: updateResource
+      tags: [resources]
+      summary: Update an emergency resource
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/EmergencyResourceUpdate"
+      responses:
+        "200":
+          description: Updated resource
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/EmergencyResource"
+
+  /dashboard/summary:
+    get:
+      operationId: getDashboardSummary
+      tags: [dashboard]
+      summary: Get dashboard summary statistics
+      responses:
+        "200":
+          description: Dashboard summary
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/DashboardSummary"
+
+  /dashboard/activity:
+    get:
+      operationId: getRecentActivity
+      tags: [dashboard]
+      summary: Get recent activity feed
+      responses:
+        "200":
+          description: Recent activity
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/ActivityItem"
+
+  /dashboard/fire-risk-trend:
+    get:
+      operationId: getFireRiskTrend
+      tags: [dashboard]
+      summary: Get fire risk trend data over past 7 days
+      responses:
+        "200":
+          description: Fire risk trend
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/RiskTrendPoint"
+
+  /dashboard/incident-stats:
+    get:
+      operationId: getIncidentStats
+      tags: [dashboard]
+      summary: Get incident statistics by severity and status
+      responses:
+        "200":
+          description: Incident statistics
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/IncidentStats"
+
 components:
   schemas:
     HealthStatus:
@@ -34,3 +516,477 @@ components:
       required:
         - status
 
+    Incident:
+      type: object
+      required: [id, title, latitude, longitude, severity, status, fireType, areaAffectedHa, riskScore, createdAt, updatedAt]
+      properties:
+        id:
+          type: integer
+        title:
+          type: string
+        description:
+          type: ["string", "null"]
+        latitude:
+          type: number
+        longitude:
+          type: number
+        severity:
+          type: string
+          enum: [low, moderate, high, critical]
+        status:
+          type: string
+          enum: [active, contained, resolved, monitoring]
+        fireType:
+          type: string
+          enum: [wildfire, bushfire, grassfire, forest_fire, unknown]
+        areaAffectedHa:
+          type: number
+        riskScore:
+          type: number
+        windSpeed:
+          type: ["number", "null"]
+        humidity:
+          type: ["number", "null"]
+        temperature:
+          type: ["number", "null"]
+        reportedBy:
+          type: ["string", "null"]
+        assignedTeam:
+          type: ["string", "null"]
+        evacuationOrdered:
+          type: boolean
+        createdAt:
+          type: string
+          format: date-time
+        updatedAt:
+          type: string
+          format: date-time
+
+    IncidentInput:
+      type: object
+      required: [title, latitude, longitude, severity, fireType]
+      properties:
+        title:
+          type: string
+          minLength: 1
+        description:
+          type: string
+        latitude:
+          type: number
+        longitude:
+          type: number
+        severity:
+          type: string
+          enum: [low, moderate, high, critical]
+        fireType:
+          type: string
+          enum: [wildfire, bushfire, grassfire, forest_fire, unknown]
+        areaAffectedHa:
+          type: number
+        windSpeed:
+          type: number
+        humidity:
+          type: number
+        temperature:
+          type: number
+        reportedBy:
+          type: string
+        assignedTeam:
+          type: string
+        evacuationOrdered:
+          type: boolean
+
+    IncidentUpdate:
+      type: object
+      properties:
+        title:
+          type: string
+        description:
+          type: string
+        severity:
+          type: string
+          enum: [low, moderate, high, critical]
+        status:
+          type: string
+          enum: [active, contained, resolved, monitoring]
+        areaAffectedHa:
+          type: number
+        assignedTeam:
+          type: string
+        evacuationOrdered:
+          type: boolean
+        riskScore:
+          type: number
+
+    Alert:
+      type: object
+      required: [id, title, message, alertType, severity, isActive, createdAt]
+      properties:
+        id:
+          type: integer
+        title:
+          type: string
+        message:
+          type: string
+        alertType:
+          type: string
+          enum: [fire_warning, evacuation, weather, system, all_clear]
+        severity:
+          type: string
+          enum: [info, warning, danger, critical]
+        affectedZone:
+          type: ["string", "null"]
+        isActive:
+          type: boolean
+        expiresAt:
+          type: ["string", "null"]
+          format: date-time
+        createdAt:
+          type: string
+          format: date-time
+
+    AlertInput:
+      type: object
+      required: [title, message, alertType, severity]
+      properties:
+        title:
+          type: string
+          minLength: 1
+        message:
+          type: string
+          minLength: 1
+        alertType:
+          type: string
+          enum: [fire_warning, evacuation, weather, system, all_clear]
+        severity:
+          type: string
+          enum: [info, warning, danger, critical]
+        affectedZone:
+          type: string
+        expiresAt:
+          type: string
+
+    AlertUpdate:
+      type: object
+      properties:
+        title:
+          type: string
+        message:
+          type: string
+        isActive:
+          type: boolean
+        severity:
+          type: string
+          enum: [info, warning, danger, critical]
+
+    RiskZone:
+      type: object
+      required: [id, name, riskLevel, riskScore, latitude, longitude, radiusKm, forestType, createdAt]
+      properties:
+        id:
+          type: integer
+        name:
+          type: string
+        riskLevel:
+          type: string
+          enum: [low, moderate, high, extreme]
+        riskScore:
+          type: number
+        latitude:
+          type: number
+        longitude:
+          type: number
+        radiusKm:
+          type: number
+        forestType:
+          type: string
+          enum: [tropical, temperate, boreal, Mediterranean, savanna, mixed]
+        populationDensity:
+          type: ["string", "null"]
+        lastAssessed:
+          type: ["string", "null"]
+          format: date-time
+        notes:
+          type: ["string", "null"]
+        createdAt:
+          type: string
+          format: date-time
+
+    RiskZoneInput:
+      type: object
+      required: [name, riskLevel, latitude, longitude, radiusKm, forestType]
+      properties:
+        name:
+          type: string
+          minLength: 1
+        riskLevel:
+          type: string
+          enum: [low, moderate, high, extreme]
+        riskScore:
+          type: number
+        latitude:
+          type: number
+        longitude:
+          type: number
+        radiusKm:
+          type: number
+        forestType:
+          type: string
+          enum: [tropical, temperate, boreal, Mediterranean, savanna, mixed]
+        populationDensity:
+          type: string
+        notes:
+          type: string
+
+    RiskZoneUpdate:
+      type: object
+      properties:
+        riskLevel:
+          type: string
+          enum: [low, moderate, high, extreme]
+        riskScore:
+          type: number
+        notes:
+          type: string
+        populationDensity:
+          type: string
+
+    WeatherReading:
+      type: object
+      required: [id, stationName, latitude, longitude, temperature, humidity, windSpeed, windDirection, precipitation, fireWeatherIndex, recordedAt]
+      properties:
+        id:
+          type: integer
+        stationName:
+          type: string
+        latitude:
+          type: number
+        longitude:
+          type: number
+        temperature:
+          type: number
+        humidity:
+          type: number
+        windSpeed:
+          type: number
+        windDirection:
+          type: string
+        precipitation:
+          type: number
+        fireWeatherIndex:
+          type: number
+        droughtCode:
+          type: ["number", "null"]
+        recordedAt:
+          type: string
+          format: date-time
+
+    CitizenReport:
+      type: object
+      required: [id, reporterName, reporterContact, description, latitude, longitude, status, createdAt]
+      properties:
+        id:
+          type: integer
+        reporterName:
+          type: string
+        reporterContact:
+          type: string
+        description:
+          type: string
+        latitude:
+          type: number
+        longitude:
+          type: number
+        status:
+          type: string
+          enum: [pending, verified, dismissed, escalated]
+        smokeDetected:
+          type: boolean
+        flamesVisible:
+          type: boolean
+        imageUrl:
+          type: ["string", "null"]
+        notes:
+          type: ["string", "null"]
+        createdAt:
+          type: string
+          format: date-time
+
+    CitizenReportInput:
+      type: object
+      required: [reporterName, reporterContact, description, latitude, longitude]
+      properties:
+        reporterName:
+          type: string
+          minLength: 1
+        reporterContact:
+          type: string
+          minLength: 1
+        description:
+          type: string
+          minLength: 1
+        latitude:
+          type: number
+        longitude:
+          type: number
+        smokeDetected:
+          type: boolean
+        flamesVisible:
+          type: boolean
+        imageUrl:
+          type: string
+
+    CitizenReportUpdate:
+      type: object
+      properties:
+        status:
+          type: string
+          enum: [pending, verified, dismissed, escalated]
+        notes:
+          type: string
+
+    EmergencyResource:
+      type: object
+      required: [id, name, resourceType, quantity, unit, isAvailable, latitude, longitude, createdAt]
+      properties:
+        id:
+          type: integer
+        name:
+          type: string
+        resourceType:
+          type: string
+          enum: [fire_truck, helicopter, ambulance, water_tanker, crew, shelter, equipment, drone]
+        quantity:
+          type: integer
+        unit:
+          type: string
+        isAvailable:
+          type: boolean
+        assignedIncidentId:
+          type: ["integer", "null"]
+        latitude:
+          type: number
+        longitude:
+          type: number
+        contactInfo:
+          type: ["string", "null"]
+        notes:
+          type: ["string", "null"]
+        createdAt:
+          type: string
+          format: date-time
+
+    EmergencyResourceInput:
+      type: object
+      required: [name, resourceType, quantity, unit, latitude, longitude]
+      properties:
+        name:
+          type: string
+          minLength: 1
+        resourceType:
+          type: string
+          enum: [fire_truck, helicopter, ambulance, water_tanker, crew, shelter, equipment, drone]
+        quantity:
+          type: integer
+        unit:
+          type: string
+        latitude:
+          type: number
+        longitude:
+          type: number
+        contactInfo:
+          type: string
+        notes:
+          type: string
+
+    EmergencyResourceUpdate:
+      type: object
+      properties:
+        isAvailable:
+          type: boolean
+        quantity:
+          type: integer
+        assignedIncidentId:
+          type: ["integer", "null"]
+        notes:
+          type: string
+
+    DashboardSummary:
+      type: object
+      required: [activeIncidents, criticalAlerts, zonesMonitored, resourcesDeployed, averageRiskScore, totalAreaAffectedHa, citizenReportsPending, containedToday]
+      properties:
+        activeIncidents:
+          type: integer
+        criticalAlerts:
+          type: integer
+        zonesMonitored:
+          type: integer
+        resourcesDeployed:
+          type: integer
+        averageRiskScore:
+          type: number
+        totalAreaAffectedHa:
+          type: number
+        citizenReportsPending:
+          type: integer
+        containedToday:
+          type: integer
+
+    ActivityItem:
+      type: object
+      required: [id, type, message, severity, timestamp]
+      properties:
+        id:
+          type: integer
+        type:
+          type: string
+          enum: [incident_created, incident_updated, alert_issued, report_submitted, resource_deployed, zone_updated]
+        message:
+          type: string
+        severity:
+          type: string
+          enum: [info, warning, danger, critical]
+        relatedId:
+          type: ["integer", "null"]
+        timestamp:
+          type: string
+          format: date-time
+
+    RiskTrendPoint:
+      type: object
+      required: [date, avgRiskScore, incidentCount, maxSeverity]
+      properties:
+        date:
+          type: string
+        avgRiskScore:
+          type: number
+        incidentCount:
+          type: integer
+        maxSeverity:
+          type: string
+
+    IncidentStats:
+      type: object
+      required: [bySeverity, byStatus, byFireType]
+      properties:
+        bySeverity:
+          type: array
+          items:
+            $ref: "#/components/schemas/StatGroup"
+        byStatus:
+          type: array
+          items:
+            $ref: "#/components/schemas/StatGroup"
+        byFireType:
+          type: array
+          items:
+            $ref: "#/components/schemas/StatGroup"
+
+    StatGroup:
+      type: object
+      required: [label, count]
+      properties:
+        label:
+          type: string
+        count:
+          type: integer

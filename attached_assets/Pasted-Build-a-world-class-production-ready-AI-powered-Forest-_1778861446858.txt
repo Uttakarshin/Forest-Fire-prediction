@@ -1,0 +1,183 @@
+Build a world-class, production-ready, AI-powered “Forest Fire Prediction & Disaster Management Platform” using modern full-stack technologies.
+
+The app should be enterprise-grade, scalable, responsive, cloud-ready, secure, visually stunning, and packed with advanced real-world features.
+
+TECH STACK:
+- Frontend: React.js / Next.js + Tailwind CSS + Framer Motion
+- Backend: Node.js + Express OR FastAPI/Django
+- AI/ML: Python, Scikit-learn, TensorFlow, XGBoost
+- Database: PostgreSQL + MongoDB + Redis
+- Maps: Google Maps API / Mapbox / Leaflet
+- Authentication: JWT + OAuth + Multi-factor authentication
+- Cloud: AWS/GCP/Azure
+- DevOps: Docker + Kubernetes + CI/CD
+- Realtime: WebSockets + MQTT
+- Mobile App Support: React Native / Flutter
+- PWA Support
+- Microservices Architecture
+
+CORE FEATURES:
+1. Forest Fire Prediction using ML models
+2. Real-time weather data integration
+3. Satellite imagery analysis
+4. Heatmap visualization
+5. Fire risk score prediction
+6. Live wildfire tracking
+7. GPS-based monitoring
+8. IoT sensor integration
+9. Drone integration support
+10. AI-based emergency alerts
+11. Push notifications
+12. SMS + Email alerts
+13. Disaster management dashboard
+14. Real-time analytics
+15. Fire spread simulation
+16. Evacuation route planning
+17. Nearby shelter finder
+18. Emergency response coordination
+19. Resource management system
+20. Volunteer management
+21. Government authority portal
+22. Forest officer dashboard
+23. Citizen reporting system
+24. Image upload fire detection
+25. AI image classification
+26. Smoke detection using computer vision
+27. Thermal camera support
+28. Offline mode support
+29. Multilingual support
+30. Dark/Light mode
+31. Accessibility features
+32. Advanced admin panel
+33. Role-based access control
+34. Audit logs
+35. AI chatbot assistant
+36. Predictive analytics dashboard
+37. Historical fire data analysis
+38. Fire trend forecasting
+39. Risk zone classification
+40. Weather forecasting integration
+41. Climate analytics
+42. Carbon emission estimation
+43. Wildlife impact monitoring
+44. Forest health monitoring
+45. GIS data integration
+46. Live incident reporting
+47. SOS emergency system
+48. Voice assistant integration
+49. AI-generated reports
+50. PDF/Excel export
+51. Advanced search & filters
+52. Interactive charts & graphs
+53. AI recommendation engine
+54. Edge AI support
+55. Realtime collaboration tools
+56. Incident timeline tracking
+57. Automated backup system
+58. Cloud synchronization
+59. API gateway architecture
+60. Scalable microservices
+
+ADVANCED AI FEATURES:
+- Deep learning wildfire prediction
+- CNN-based smoke/fire image recognition
+- LSTM weather forecasting
+- Reinforcement learning for fire spread prediction
+- AI anomaly detection
+- Explainable AI dashboard
+- AI-generated risk recommendations
+
+UI/UX REQUIREMENTS:
+- Futuristic premium UI
+- Stunning animations
+- Responsive mobile-first design
+- Glassmorphism + neumorphism
+- Interactive 3D maps
+- Modern admin dashboard
+- Realtime charts
+- Animated alerts
+- Beautiful loading screens
+- Professional typography
+
+SECURITY FEATURES:
+- End-to-end encryption
+- Rate limiting
+- API protection
+- Secure authentication
+- GDPR compliance
+- Data privacy management
+- Threat monitoring
+- Intrusion detection
+
+DATABASE FEATURES:
+- Fire incidents database
+- Historical weather database
+- User management
+- Sensor logs
+- Drone data storage
+- AI prediction logs
+- Geospatial indexing
+
+ADMIN PANEL:
+- User management
+- Role permissions
+- Analytics dashboard
+- System monitoring
+- AI model management
+- Incident management
+- Notification management
+
+MOBILE FEATURES:
+- Offline emergency alerts
+- GPS live tracking
+- Push notifications
+- Emergency SOS button
+- Camera-based fire detection
+- Voice reporting
+
+MAP FEATURES:
+- Realtime wildfire map
+- Satellite view
+- Terrain mode
+- Heat zones
+- Fire spread animation
+- Risk overlays
+- Live responders tracking
+
+API INTEGRATIONS:
+- OpenWeather API
+- NASA FIRMS API
+- Google Maps API
+- Twilio SMS API
+- Firebase notifications
+- Drone telemetry APIs
+
+DEVOPS REQUIREMENTS:
+- Dockerized services
+- Kubernetes deployment
+- GitHub Actions CI/CD
+- Monitoring with Grafana + Prometheus
+- Logging with ELK stack
+- Auto scaling
+
+GENERATE:
+1. Full frontend code
+2. Full backend code
+3. Database schema
+4. AI/ML pipeline
+5. API architecture
+6. Folder structure
+7. Deployment scripts
+8. Docker configuration
+9. Kubernetes manifests
+10. CI/CD pipeline
+11. Mobile app structure
+12. Authentication system
+13. Admin dashboard
+14. Testing setup
+15. Production optimization
+16. API documentation
+17. Security implementation
+18. README documentation
+
+The application should look like a billion-dollar Silicon Valley startup product and be fully production-ready with enterprise-level architecture and clean maintainable code.
